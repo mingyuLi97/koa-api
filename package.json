@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./src/main.js"
+    "dev": "nodemon ./src/main.js",
+    "cmt": "git add . && git-cz"
   },
   "keywords": [],
   "author": "",
