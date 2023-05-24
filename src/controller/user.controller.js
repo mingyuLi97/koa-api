@@ -1,6 +1,6 @@
 class UserController {
   async register(ctx, next) {
-    ctx.body = "register";
+    ctx.body = ctx.request.body;
   }
   async login(ctx, next) {
     ctx.body = "登录";
