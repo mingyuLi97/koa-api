@@ -1,6 +1,10 @@
 const jwt = require("jsonwebtoken");
 
-const { createUser, getUserInfo } = require("../service/user.service");
+const {
+  createUser,
+  getUserInfo,
+  updateById,
+} = require("../service/user.service");
 const { USER_REGISTER_ERROR } = require("../constant/err.type");
 const { JWT_SECRET } = require("../config/config.default");
 class UserController {
@@ -40,6 +44,17 @@ class UserController {
       console.error("用户登录错误", err);
       ctx.app.emit("error", USER_LOGIN_ERROR, ctx);
       return;
+    }
+  }
+
+  async changePassword(ctx, next) {
+    const id = ctx.state.user.id;
+    const password = ctx.request.body.password;
+    if (await updateById(id, { password })) {
+      ctx.body = {
+        code: "0",
+        message: "修改成功",
+      };
     }
   }
 }
