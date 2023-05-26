@@ -20,7 +20,9 @@ class UserController {
     }
   }
   async login(ctx, next) {
-    ctx.body = "登录";
+    const { user_name, password } = ctx.request.body;
+
+    ctx.body = `Hello "${user_name}"`;
   }
 }
 

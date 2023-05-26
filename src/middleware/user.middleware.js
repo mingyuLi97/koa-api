@@ -3,6 +3,9 @@ const { getUserInfo } = require("../service/user.service");
 const {
   USER_FORMATE_ERROR,
   USER_ALREADY_EXISTED,
+  USER_DOES_NOT_EXISTED,
+  USER_LOGIN_ERROR,
+  USER_INVALID_PASSWORD,
 } = require("../constant/err.type");
 
 const userValidator = async (ctx, next) => {
@@ -27,6 +30,28 @@ const verifyUser = async (ctx, next) => {
   await next();
 };
 
+const verifyLogin = async (ctx, next) => {
+  const { user_name, password } = ctx.request.body;
+  try {
+    const res = await getUserInfo({ user_name });
+    if (!res) {
+      console.error("用户不存在", ctx.request.body);
+      ctx.app.emit("error", USER_DOES_NOT_EXISTED, ctx);
+      return;
+    }
+    if (!encrypt.compareSync(password, res.password)) {
+      console.error("密码错误", ctx.request.body);
+      ctx.app.emit("error", USER_INVALID_PASSWORD, ctx);
+      return;
+    }
+  } catch (err) {
+    console.error("用户登录错误", err);
+    ctx.app.emit("error", USER_LOGIN_ERROR, ctx);
+    return;
+  }
+  await next();
+};
+
 const encryptPassword = async (ctx, next) => {
   const { password } = ctx.request.body;
 
@@ -40,5 +65,6 @@ const encryptPassword = async (ctx, next) => {
 module.exports = {
   userValidator,
   verifyUser,
+  verifyLogin,
   encryptPassword,
 };
