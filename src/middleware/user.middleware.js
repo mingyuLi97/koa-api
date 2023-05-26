@@ -1,3 +1,4 @@
+const encrypt = require("bcryptjs");
 const { getUserInfo } = require("../service/user.service");
 const {
   USER_FORMATE_ERROR,
@@ -26,7 +27,18 @@ const verifyUser = async (ctx, next) => {
   await next();
 };
 
+const encryptPassword = async (ctx, next) => {
+  const { password } = ctx.request.body;
+
+  const salt = encrypt.genSaltSync(10);
+  const hash = encrypt.hashSync(password, salt);
+  ctx.request.body.password = hash;
+
+  await next();
+};
+
 module.exports = {
   userValidator,
   verifyUser,
+  encryptPassword,
 };
