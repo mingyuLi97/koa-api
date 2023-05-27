@@ -6,6 +6,9 @@ const {
   HAS_NOT_ADMIN_PERMISSION,
 } = require("../constant/err.type");
 
+/**
+ * 校验用户是否登录
+ */
 const auth = async (ctx, next) => {
   const { authorization } = ctx.request.header;
   const token = authorization.replace("Bearer ", "");
@@ -32,7 +35,7 @@ const auth = async (ctx, next) => {
 };
 
 /**
- * 授权
+ * 是否有管理员权限
  * @param {*} ctx
  * @param {*} next
  */
