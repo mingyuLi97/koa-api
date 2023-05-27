@@ -5,12 +5,10 @@ const errHandler = require("./errHandler");
 
 const app = new Koa();
 
-const indexRouter = require("../router/index.route");
-const userRouter = require("../router/user.route");
+const router = require("../router");
 
 app.use(koaBody());
-app.use(indexRouter.routes());
-app.use(userRouter.routes());
+app.use(router.routes());
 
 app.on("error", errHandler);
 
