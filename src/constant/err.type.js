@@ -39,4 +39,9 @@ module.exports = {
     message: "token 无效",
     result: "",
   },
+  HAS_NOT_ADMIN_PERMISSION: {
+    code: "10103",
+    message: "无管理员权限",
+    result: "",
+  },
 };
