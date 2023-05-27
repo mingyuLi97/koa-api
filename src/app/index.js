@@ -8,7 +8,7 @@ const app = new Koa();
 const router = require("../router");
 
 app.use(koaBody());
-app.use(router.routes());
+app.use(router.routes()).use(router.allowedMethods());
 
 app.on("error", errHandler);
 
