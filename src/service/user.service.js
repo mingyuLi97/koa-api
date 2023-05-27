@@ -29,6 +29,17 @@ class UserService {
     const res = await User.update(newUser, { where: { id } });
     return res;
   }
+
+  /**
+   * 修改用户的权限
+   * @param {string} user_name
+   * @param {0 | 1} is_admin
+   * @returns {Promise<boolean>}
+   */
+  async changePermission(user_name, is_admin) {
+    const res = await User.update({ is_admin }, { where: { user_name } });
+    return res[0] !== 0;
+  }
 }
 
 module.exports = new UserService();

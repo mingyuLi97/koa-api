@@ -4,6 +4,7 @@ const {
   createUser,
   getUserInfo,
   updateById,
+  changePermission,
 } = require("../service/user.service");
 const { USER_REGISTER_ERROR } = require("../constant/err.type");
 const { JWT_SECRET } = require("../config/config.default");
@@ -54,6 +55,24 @@ class UserController {
       ctx.body = {
         code: "0",
         message: "修改成功",
+      };
+    }
+  }
+
+  /**
+   * 修改用户的权限
+   */
+  async changePermission(ctx, next) {
+    const { user_name, is_admin } = ctx.request.body;
+    if (await changePermission(user_name, is_admin)) {
+      ctx.body = {
+        code: "0",
+        message: "修改成功",
+      };
+    } else {
+      ctx.body = {
+        code: "111111",
+        message: "修改失败",
       };
     }
   }
